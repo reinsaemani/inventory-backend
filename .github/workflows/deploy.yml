@@ -72,12 +72,8 @@ jobs:
             source .env
             set +a
 
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-            export IMAGE=${{ secrets.DOCKER_USERNAME }}/inventory-backend:${{ github.ref_name }}
-
             docker-compose down
-            IMAGE=$IMAGE docker-compose up -d --remove-orphans --no-cache
+            docker-compose up -d --remove-orphans --no-cache --build
 
             sleep 10
 
