@@ -63,15 +63,26 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-
+            set -e
             cd ~/inventory-backend
+
+            git pull origin main
+
+            set -a
+            source .env
+            set +a
 
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
             export IMAGE=${{ secrets.DOCKER_USERNAME }}/inventory-backend:${{ github.ref_name }}
 
-            docker compose down
-            IMAGE=$IMAGE docker compose up -d --remove-orphans
+            docker-compose down
+            IMAGE=$IMAGE docker-compose up -d --remove-orphans --no-cache
+
+            sleep 10
+
+            docker exec inventory-backend sh -c "pnpm prisma migrate deploy"
+
 
             docker image prune -f
 
