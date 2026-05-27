@@ -1,6 +1,6 @@
 services:
   backend:
-    image: reinsaemani/inventory-backend:v1.0.7
+    image: reinsaemani/inventory-backend:v1.0.8
     container_name: inventory-backend
     ports:
       - "5051:5051"
