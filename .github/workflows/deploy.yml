@@ -73,7 +73,8 @@ jobs:
             set +a
 
             docker-compose down
-            docker-compose up -d --remove-orphans --no-cache --build
+            docker compose build --no-cache
+            docker compose up -d --remove-orphans
 
             sleep 10
 
